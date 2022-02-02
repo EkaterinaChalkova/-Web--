@@ -1,15 +1,12 @@
 import { HowlToExport } from "./howlerModule.js";
 
-// INPUTS
 const minutesInput = document.getElementById("minInput");
 const secondsInput = document.getElementById("secInput");
 
-// CONTROL BUTTONS
 const startBtn = document.getElementById("start");
 const pauseBtn = document.getElementById("pause");
 const resetBtn = document.getElementById("reset");
 
-// OUTPUTS
 const minutesOutput = document.getElementById("mins");
 const secondsOutput = document.getElementById("secs");
 
