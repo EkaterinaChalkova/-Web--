@@ -1,23 +1,18 @@
-import { diffDates, diffToHtml } from "./datecalc.js"; // 1
-import { formatError } from "./utils.js"; // 2
-import timer from "./timer.js";
-const dateCalcForm = document.getElementById("datecalc");
-const dateCalcResult = document.getElementById("datecalc__result");
+import { printError, printResult } from "./printResult.js";
+import getDateDiff from "./getDateDiff.js";
 
-dateCalcForm.addEventListener("submit", handleCalcDates);
+const form = document.getElementById("datecalc");
 
-function handleCalcDates(event) {
-  dateCalcResult.innerHTML = "";
+form.onsubmit = (event) => {
   event.preventDefault();
+  const formData = new FormData(event.target);
+  const firstDate = formData.get("firstDate");
+  const secondDate = formData.get("secondDate");
 
-  let { firstDate, secondDate } = event.target.elements;
-  (firstDate = firstDate.value), (secondDate = secondDate.value);
-
-  if (firstDate && secondDate) {
-    const diff = diffDates(firstDate, secondDate); // 3
-    dateCalcResult.innerHTML = diffToHtml(diff); // 4
-  } else
-    dateCalcResult.innerHTML = formatError(
-      "Для расчета промежутка необходимо заполнить оба поля"
-    ); // 5
-}
+  if (!firstDate || !secondDate) {
+    printError("Enter date, please");
+  } else {
+    const dateDiff = getDateDiff(firstDate, secondDate);
+    printResult(dateDiff);
+  }
+};

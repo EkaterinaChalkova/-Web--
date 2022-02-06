@@ -1,58 +1,45 @@
-// const timer = (id, deadline) => {
-//   const addZero = (num) => {
-//     if (num <= 9) {
-//       return "0" + num;
-//     } else {
-//       return num;
-//     }
-//   };
+import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js";
 
-//   const getTimeRemaining = (endtime) => {
-//     const t = Date.parse(endtime) - Date.parse(new Date()),
-//       seconds = Math.floor((t / 1000) % 60),
-//       minutes = Math.floor((t / 1000 / 60) % 60),
-//       hours = Math.floor((t / (1000 * 60 * 60)) % 24),
-//       days = Math.floor(t / (1000 * 60 * 60 * 24));
+var sound = new Howl({
+  src: ["./sound/music.mp3"],
+});
 
-//     return {
-//       total: t,
-//       days: days,
-//       hours: hours,
-//       minutes: minutes,
-//       seconds: seconds,
-//     };
-//   };
+const form = document.getElementById("timer__result");
 
-//   const setClock = (selector, endtime) => {
-//     const timer = document.querySelector(selector),
-//       days = timer.querySelector("#days"),
-//       hours = timer.querySelector("#hours"),
-//       minutes = timer.querySelector("#minutes"),
-//       seconds = timer.querySelector("#seconds"),
-//       timeInterval = setInterval(updateClock, 1000);
+const timerStart = document.getElementById("timerStart");
+const timerStop = document.getElementById("timerStop");
 
-//     updateClock();
+const timerMinutesElement = document.getElementById("minutes");
+const timerSecondsElement = document.getElementById("seconds");
 
-//     function updateClock() {
-//       const t = getTimeRemaining(endtime);
+let timerMinutesTemp;
+let timerSecondsTemp;
+let interval;
 
-//       days.textContent = addZero(t.days);
-//       hours.textContent = addZero(t.hours);
-//       minutes.textContent = addZero(t.minutes);
-//       seconds.textContent = addZero(t.seconds);
+timerStart.onclick = (event) => {
+  event.preventDefault();
+  let timerMinutesTemp = timerMinutesElement.value;
+  let timerSecondsTemp = timerSecondsElement.value;
 
-//       if (t.total <= 0) {
-//         days.textContent = "00";
-//         hours.textContent = "00";
-//         minutes.textContent = "00";
-//         seconds.textContent = "00";
+  interval = setInterval(() => {
+    form.innerHTML = `Осталось: ${timerMinutesTemp} м. ${timerSecondsTemp} сек.`;
+    timerSecondsTemp = timerSecondsTemp - 1;
 
-//         clearInterval(timeInterval);
-//       }
-//     }
-//   };
+    if (timerSecondsTemp == -1) {
+      timerSecondsTemp = 59;
+      timerMinutesTemp = timerMinutesTemp - 1;
+      if (timerMinutesTemp < 0) {
+        clearInterval(interval);
+        form.innerHTML = `ВРЕМЯ ВЫШЛО!`;
+        alert(`ВРЕМЯ ВЫШЛО!`);
+        sound.play();
+        // alarm.play()
+      }
+    }
+  }, 1000);
+};
 
-//   setClock(id, deadline);
-// };
-
-// export default timer;
+timerStop.onclick = (event) => {
+  event.preventDefault();
+  clearInterval(interval);
+};
