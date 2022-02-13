@@ -1,7 +1,8 @@
-import "https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.js";
+import "./howl.js";
+import alarmSound from "../sound/music.mp3";
 
 var sound = new Howl({
-  src: ["./sound/music.mp3"],
+  src: [alarmSound],
 });
 
 const form = document.getElementById("timer__result");

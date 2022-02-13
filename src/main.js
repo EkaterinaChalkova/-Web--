@@ -1,5 +1,7 @@
 import { printError, printResult } from "./printResult.js";
 import getDateDiff from "./getDateDiff.js";
+import "./switch.js";
+import "./timer.js";
 
 const form = document.getElementById("datecalc");
 
