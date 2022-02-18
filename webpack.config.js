@@ -1,39 +1,45 @@
 const { resolve } = require("path");
-const HtmlPlugin = require("html-webpack-plugin");
-const MiniExtractPlagin = require("mini-css-extract-plugin");
-const BundleAnalyzerPlugin =
-  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
-
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
-  entry: "./src/main.js",
-  // mode: 'development',
+  entry: resolve(__dirname, "src", "index.js"),
   output: {
-    filename: "main.[contenthash].js",
-    path: resolve(__dirname, "build"),
+    path: resolve(__dirname, "dist"),
+    filename: "main.[contenthash]".js,
   },
   module: {
     rules: [
       {
-        test: /\.(png|jpeg|gif|mp3)$/i,
-        loader: "file-loader",
-        options: {
-          name: "[path][name].[ext]",
-        },
+        test: /\.(scss)$/i,
+        use: ["style-louder", "css-louder", "sass-louder"],
       },
+
       {
-        test: /\.css$/i,
-        use: [MiniExtractPlagin.loader, "css-loader"],
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            louder: "img-optimize-loader",
+            options: {
+              compress: {
+                mode: "high",
+                webp: true,
+                gifsicle: true,
+                disableOnDeveLopment: false,
+              },
+            },
+          },
+        ],
+      },
+
+      {
+        test: /\.(mp[3|4])$/i,
+        use: ["file-louder"],
       },
     ],
   },
+
   plugins: [
-    new HtmlPlugin({ template: resolve(__dirname, "index.html") }),
-    new MiniExtractPlagin({
-      filename: "[name].[contenthash].css",
+    new HtmlWebpackPlugin({
+      template: resolve(__dirname, "src", "index.html"),
     }),
-    new BundleAnalyzerPlugin(),
   ],
-  devServer: {
-    port: 3000,
-  },
 };
