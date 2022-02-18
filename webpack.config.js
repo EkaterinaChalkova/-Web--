@@ -9,15 +9,15 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(scss)$/i,
-        use: ["style-louder", "css-louder", "sass-louder"],
+        test: /\.(s[ac]ss)$/i,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
 
       {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            louder: "img-optimize-loader",
+            loader: "img-optimize-loader",
             options: {
               compress: {
                 mode: "high",
@@ -32,7 +32,7 @@ module.exports = {
 
       {
         test: /\.(mp[3|4])$/i,
-        use: ["file-louder"],
+        use: ["file-loader"],
       },
     ],
   },
